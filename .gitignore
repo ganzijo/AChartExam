@@ -31,7 +31,7 @@ node_modules
 
 *.java.hsp
 *.sonarj
-.settings
+.settings/
 .springBeans
 bin
 build.sh
@@ -52,8 +52,8 @@ buildSrc/build
 target/
 
 # Eclipse artifacts, including WTP generated manifests
-.classpath
-.project
+.classpath/
+.project/
 applechip-*/src/main/java/META-INF/MANIFEST.MF
 
 # IDEA artifacts and output dirs
