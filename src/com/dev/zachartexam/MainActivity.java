@@ -1,7 +1,9 @@
 package com.dev.zachartexam;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -19,6 +21,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.widget.LinearLayout;
 
 import com.dev.zachartexam.ChartDataVO.Data;
+import com.dev.zachartexam.ChartDataVO.Setting;
+import com.dev.zachartexam.ChartDataVO.Title;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -28,20 +32,38 @@ public class MainActivity extends ActionBarActivity {
 	private ChartDataVO getChartDataVO() {
 		ChartDataVO vo = new ChartDataVO();
 		Data data = vo.getData();
+		data.setChartTitle("ï¿½ï¿½Æ® Å¸ï¿½ï¿½Æ²");
+		Setting x = new Setting();
+		x.setAxisMin("0.5");
+		x.setAxisMax("12.5");
+		x.getTextLabel().put("1", "1ï¿½ï¿½");
+		x.getTextLabel().put("3", "3ï¿½ï¿½");
+		x.getTextLabel().put("5", "5ï¿½ï¿½");
+		x.getTextLabel().put("7", "7ï¿½ï¿½");
+		x.getTextLabel().put("9", "9ï¿½ï¿½");
+		x.getTextLabel().put("11", "11ï¿½ï¿½");
+		
+		Setting y = new Setting();
+		y.setAxisMin("0");
+		y.setAxisMax("25000");
 
-		data.setChartTitle("Â÷Æ® Å¸ÀÌÆ²");
-		data.setxTitle("XÃà Å¸ÀÌÆ²");
-		data.setyTitle("YÃà Å¸ÀÌÆ²");
-		data.setXAxisMin("0.5");
-		data.setXAxisMax("12.5");
-		data.setYAxisMin("0");
-		data.setYAxisMax("25000");
-		data.getxTextLabel();
-		data.getyTextLabel();
-		data.setxLabels("1");
-		data.setyLabels("10");
-		data.setAxesColor(Color.BLUE);
-		data.setLabelsColor(Color.RED);
+		Title title1 = new Title();
+		title1.setTitle("Temp Title");
+		Double[] value1 = new Double[] { 5230.0, 7300.0, 9240.0, 10540.0,
+				7900.0, 9200.0, 12030.0, 11200.0, 9500.0, 10500.0, 11600.0,
+				13500.0 };
+		title1.setValues(Arrays.asList(value1));
+		title1.setColor(Color.BLUE);
+		data.getTitles().add(title1);
+
+		Title title2 = new Title();
+		title2.setTitle("Second Title");
+		Double[] value2 = new Double[] { 14230.0, 12300.0, 14240.0, 15244.0,
+				15900.0, 19200.0, 22030.0, 21200.0, 19500.0, 15500.0, 12600.0,
+				14000.0 };
+		title2.setValues(Arrays.asList(value2));
+		title2.setColor(Color.RED);
+		data.getTitles().add(title2);
 		return vo;
 
 	}
@@ -55,331 +77,80 @@ public class MainActivity extends ActionBarActivity {
 		StrictMode.setThreadPolicy(policy);
 
 		ChartDataVO vo = getChartDataVO();
-		// ChartDataVO vo = new ChartDataVO();
 		Data data = vo.getData();
 
-		// if (data == null || data.equals(null)) {
-		// // °ªÀÌ ÀÖ´Â °æ¿ì Ã³¸®
-		// } else {
-		// Toast.makeText(getApplicationContext(), "null À¯¹«È®ÀÎ",
-		// Toast.LENGTH_LONG).show();
-		// // °ªÀÌ ¾ø´Â °æ¿ì Ã³¸®
-		// }
-		String[] titles = { "Temp Title", "Second Title" };
-
-		values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030,
-				11200, 9500, 10500, 11600, 13500 });
-		values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200,
-				22030, 21200, 19500, 15500, 12600, 14000 });
-
-		int[] colors = new int[] { data.getAxesColor(), data.getLabelsColor() };
-		XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-
-		renderer.setXLabels(Integer.parseInt(data.getxLabels()));
-		renderer.setYLabels(Integer.parseInt(data.getyLabels()));
-		setChartSettings(renderer, data);
-
-		// for (Entry<String, String> entry : data.getxTextLabel().entrySet()) {
-		// renderer.addXTextLabel(Integer.parseInt(entry.getKey()),
-		// entry.getValue());
-		// }
-
-		// ¼öµ¿ µ¥ÀÌÅÍ ÀÔ·Â
-		renderer.addXTextLabel(1, "1¿ù");
-		renderer.addXTextLabel(3, "3¿ù");
-		renderer.addXTextLabel(5, "5¿ù");
-		renderer.addXTextLabel(7, "7¿ù");
-		renderer.addXTextLabel(9, "9¿ù");
-		renderer.addXTextLabel(11, "11¿ù");
-
-		// ºÐ·ç¸í ±ÛÀÚ Å©±â ¹× °¢ »ö»ó ÁöÁ¤
-		int length = renderer.getSeriesRendererCount();
-		for (int i = 0; i < length; i++) {
-			SimpleSeriesRenderer seriesRenderer = renderer
-					.getSeriesRendererAt(i);
-			seriesRenderer.setDisplayChartValues(true); // Â÷Æ® ³»ÀÇ valueµéÀÌ
-														// Ç¥ÇöµÇ´Â ºÎºÐ
-		}
-
-		// ±×·¡ÇÁ ºÙÈ÷´Â ºÎºÐ ½ÃÀÛ
+		// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½
 		lv = (LinearLayout) findViewById(R.id.mainlinear);
 		GraphicalView gv = (GraphicalView) ChartFactory.getBarChartView(
 				// getBaseContext(),buildBarDataset(data.getChartTitle(),
 				// values), renderer, Type.DEFAULT);
-				getBaseContext(), buildBarDataset(titles, values), renderer,
+				getBaseContext(), buildBarDataset(data), buildrenderer(data),
 				Type.DEFAULT);
 		lv.addView(gv);
-		// ±×·¡ÇÁ ºÙÈ÷´Â ºÎºÐ Á¾·á
+		// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	}
 
-	protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
-		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.setOrientation(Orientation.HORIZONTAL); // ±×·¡ÇÁ ¹æÇâ
-		renderer.setAxisTitleTextSize(16);
-		renderer.setChartTitleTextSize(20);
-		renderer.setLabelsTextSize(15);
-		renderer.setLegendTextSize(15);
-		renderer.setZoomEnabled(true, true); // Zoom ±â´É On/Off
-		renderer.setZoomRate(1.0f); // Zoom ºñÀ²
-		renderer.setBarSpacing(0.2f); // ¸·´ë°£ °£°Ý ¼³Á¤
-		renderer.setPanEnabled(false, false); // X,YÃà ½ºÅ©·Ñ ¿©ºÎ On/Off
-
-		int length = colors.length;
-		for (int i = 0; i < length; i++) {
-			SimpleSeriesRenderer r = new SimpleSeriesRenderer();
-			r.setColor(colors[i]);
-			renderer.addSeriesRenderer(r);
-		}
-		return renderer;
-	}
-
-	// ¼³Á¤ Á¤º¸ ¼³Á¤ : ¿É¼Ç(ÅØ½ºÆ® Å©±â µîµî)µîÀÇ ¼³Á¤ÇÑ Á¤º¸¸¦ dataset ÇüÅÂ·Î ÀúÀå
-	// protected XYMultipleSeriesDataset buildBarDataset(String titles,
-	// List<double[]> values) {
-	// XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-	// int length = titles.length();
-	// for (int i = 0; i < length; i++) {
-	// CategorySeries series = new CategorySeries(titles.);
-	// double[] v = values.get(i);
-	//
-	// int seriesLength = v.length;
-	// for (int k = 0; k < seriesLength; k++) {
-	// series.add((v[k]));
-	// }
-	// dataset.addSeries(series.toXYSeries());
-	// }
-	// return dataset;
-	// }
-
-	protected XYMultipleSeriesDataset buildBarDataset(String[] titles,
-			List<double[]> values) {
+	protected XYMultipleSeriesDataset buildBarDataset(Data data) {
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-		int length = titles.length;
-		for (int i = 0; i < length; i++) {
-			CategorySeries series = new CategorySeries(titles[i]);
-			double[] v = values.get(i);
-			int seriesLength = v.length;
-			for (int k = 0; k < seriesLength; k++) {
-				series.add(v[k]);
+		for (Title title : data.getTitles()) {
+			CategorySeries series = new CategorySeries(title.getTitle());
+			for (Double value : title.getValues()) {
+				series.add(value == null ? 0 : value);
 			}
 			dataset.addSeries(series.toXYSeries());
 		}
 		return dataset;
 	}
 
-	private void setChartSettings(XYMultipleSeriesRenderer renderer, Data data) {
+	protected XYMultipleSeriesRenderer buildrenderer(Data data) {
+		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+		for (Title title : data.getTitles()) {
+			SimpleSeriesRenderer simpleSeriesRenderer = new SimpleSeriesRenderer();
+			simpleSeriesRenderer.setColor(title.getColor());
+			renderer.addSeriesRenderer(simpleSeriesRenderer);
+		}
+
+		renderer.setOrientation(Orientation.HORIZONTAL);
+		renderer.setAxisTitleTextSize(16);
+		renderer.setChartTitleTextSize(20);
+		renderer.setLabelsTextSize(15);
+		renderer.setLegendTextSize(15);
+		renderer.setZoomEnabled(true, true);
+		renderer.setZoomRate(1.0f);
+		renderer.setBarSpacing(0.2f);
+		renderer.setPanEnabled(false, false);
+		
+		Setting x = data.getX();
+		renderer.setXLabels(Integer.parseInt(x.getLabels()));
+		renderer.setXTitle(x.getTitle());
+		renderer.setXAxisMin(Double.parseDouble(x.getAxisMin()));
+		renderer.setXAxisMax(Double.parseDouble(x.getAxisMax()));
+		for (Entry<String, String> entry : x.getTextLabel().entrySet()) {
+			renderer.addXTextLabel(Integer.parseInt(entry.getKey()),
+					entry.getValue());
+		}
+
+		Setting y = data.getY();
+		renderer.setYLabels(Integer.parseInt(y.getLabels()));
+		renderer.setYTitle(y.getTitle());
+		renderer.setYAxisMin(Double.parseDouble(y.getAxisMin()));
+		renderer.setYAxisMax(Double.parseDouble(y.getAxisMax()));
+		for (Entry<String, String> entry : y.getTextLabel().entrySet()) {
+			renderer.addYTextLabel(Integer.parseInt(entry.getKey()),
+					entry.getValue());
+		}
+
 		renderer.setChartTitle(data.getChartTitle());
-		renderer.setXTitle(data.getxTitle());
-		renderer.setYTitle(data.getYTitle());
-		renderer.setXAxisMin(Double.parseDouble(data.getXAxisMin()));
-		renderer.setXAxisMax(Double.parseDouble(data.getXAxisMax()));
-		renderer.setYAxisMin(Double.parseDouble(data.getYAxisMin()));
-		renderer.setYAxisMax(Double.parseDouble(data.getYAxisMax()));
-		renderer.setAxesColor(data.getAxesColor());
-		renderer.setLabelsColor(data.getLabelsColor());
+		renderer.setAxesColor(Integer.parseInt(data.getAxesColor()));
+		renderer.setLabelsColor(Integer.parseInt(data.getLabelsColor()));
+
+		int length = renderer.getSeriesRendererCount();
+		for (int i = 0; i < length; i++) {
+			SimpleSeriesRenderer seriesRenderer = renderer
+					.getSeriesRendererAt(i);
+			seriesRenderer.setDisplayChartValues(true);
+		}
+		return renderer;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// package com.dev.zachartexam;
-//
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Map.Entry;
-//
-// import org.achartengine.ChartFactory;
-// import org.achartengine.GraphicalView;
-// import org.achartengine.chart.BarChart.Type;
-// import org.achartengine.model.CategorySeries;
-// import org.achartengine.model.XYMultipleSeriesDataset;
-// import org.achartengine.renderer.SimpleSeriesRenderer;
-// import org.achartengine.renderer.XYMultipleSeriesRenderer;
-// import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
-//
-// import android.graphics.Color;
-// import android.os.Bundle;
-// import android.os.StrictMode;
-// import android.support.v7.app.ActionBarActivity;
-// import android.widget.LinearLayout;
-// import android.widget.Toast;
-//
-// import com.dev.zachartexam.ChartDataVO.Data;
-//
-// public class MainActivity extends ActionBarActivity {
-//
-// LinearLayout lv;
-// List<double[]> values = new ArrayList<double[]>();
-//
-// private ChartDataVO getChartDataVO() {
-// ChartDataVO vo = new ChartDataVO();
-// Data data = vo.getData();
-//
-// data.setChartTitle("Â÷Æ® Å¸ÀÌÆ²");
-// data.setxTitle("XÃà Å¸ÀÌÆ²");
-// data.setyTitle("YÃà Å¸ÀÌÆ²");
-// data.setXAxisMin("0.5");
-// data.setXAxisMax("12.5");
-// data.setYAxisMin("0");
-// data.setYAxisMax("25000");
-// data.getxTextLabel();
-// data.getyTextLabel();
-// data.setxLabels("1");
-// data.setyLabels("10");
-// data.setAxesColor(Color.WHITE);
-// data.setLabelsColor(Color.WHITE);
-// return vo;
-//
-// }
-//
-// @Override
-// protected void onCreate(Bundle savedInstanceState) {
-// super.onCreate(savedInstanceState);
-// setContentView(R.layout.activity_main);
-// StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-// .permitAll().build();
-// StrictMode.setThreadPolicy(policy);
-//
-// ChartDataVO vo = getChartDataVO();
-// // ChartDataVO vo = new ChartDataVO();
-// Data data = vo.getData();
-//
-// // if (data == null || data.equals(null)) {
-// // // °ªÀÌ ÀÖ´Â °æ¿ì Ã³¸®
-// // } else {
-// // Toast.makeText(getApplicationContext(), "null À¯¹«È®ÀÎ",
-// // Toast.LENGTH_LONG).show();
-// // // °ªÀÌ ¾ø´Â °æ¿ì Ã³¸®
-// // }
-// String[] titles = {"Temp Title", "Second Title"};
-//
-// values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030,
-// 11200, 9500, 10500, 11600, 13500 });
-// values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200,
-// 22030, 21200, 19500, 15500, 12600, 14000 });
-//
-// int[] colors = new int[] { Color.RED, Color.BLUE };
-// XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-// renderer.setOrientation(Orientation.HORIZONTAL); // ±×·¡ÇÁ ¹æÇâ
-// renderer.setXLabels(Integer.parseInt(data.getxLabels()));
-// renderer.setYLabels(Integer.parseInt(data.getyLabels()));
-// setChartSettings(renderer, data);
-//
-// // for (Entry<String, String> entry : data.getxTextLabel().entrySet()) {
-// // renderer.addXTextLabel(Integer.parseInt(entry.getKey()),
-// // entry.getValue());
-// // }
-// renderer.addXTextLabel(0, "0");
-// renderer.addXTextLabel(3, "1");
-// renderer.addXTextLabel(5, "2");
-// renderer.addXTextLabel(7, "3");
-// renderer.addXTextLabel(9, "4");
-//
-// renderer.setZoomEnabled(true, true); // Zoom ±â´É On/Off
-// renderer.setZoomRate(1.0f); // Zoom ºñÀ²
-// renderer.setBarSpacing(0.2f); // ¸·´ë°£ °£°Ý ¼³Á¤
-// renderer.setPanEnabled(false, false); // X,YÃà ½ºÅ©·Ñ ¿©ºÎ On/Off
-//
-// // ºÐ·ç¸í ±ÛÀÚ Å©±â ¹× °¢ »ö»ó ÁöÁ¤
-// int length = renderer.getSeriesRendererCount();
-// for (int i = 0; i < length; i++) {
-// SimpleSeriesRenderer seriesRenderer = renderer
-// .getSeriesRendererAt(i);
-// seriesRenderer.setDisplayChartValues(true); // Â÷Æ® ³»ÀÇ valueµéÀÌ
-// // Ç¥ÇöµÇ´Â ºÎºÐ
-// }
-//
-// // ±×·¡ÇÁ ºÙÈ÷´Â ºÎºÐ ½ÃÀÛ
-// lv = (LinearLayout) findViewById(R.id.mainlinear);
-// GraphicalView gv = (GraphicalView) ChartFactory.getBarChartView(
-// // getBaseContext(),buildBarDataset(data.getChartTitle(),
-// // values), renderer, Type.DEFAULT);
-// getBaseContext(), buildBarDataset(titles, values), renderer,
-// Type.DEFAULT);
-// lv.addView(gv);
-// // ±×·¡ÇÁ ºÙÈ÷´Â ºÎºÐ Á¾·á
-//
-// }
-//
-// protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
-// XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-// renderer.setAxisTitleTextSize(16);
-// renderer.setChartTitleTextSize(20);
-// renderer.setLabelsTextSize(15);
-// renderer.setLegendTextSize(15);
-//
-// int length = colors.length;
-// for (int i = 0; i < length; i++) {
-// SimpleSeriesRenderer r = new SimpleSeriesRenderer();
-// r.setColor(colors[i]);
-// renderer.addSeriesRenderer(r);
-// }
-// return renderer;
-// }
-//
-// // ¼³Á¤ Á¤º¸ ¼³Á¤ : ¿É¼Ç(ÅØ½ºÆ® Å©±â µîµî)µîÀÇ ¼³Á¤ÇÑ Á¤º¸¸¦ dataset ÇüÅÂ·Î ÀúÀå
-// // protected XYMultipleSeriesDataset buildBarDataset(String titles,
-// // List<double[]> values) {
-// // XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-// // int length = titles.length();
-// // for (int i = 0; i < length; i++) {
-// // CategorySeries series = new CategorySeries(titles.);
-// // double[] v = values.get(i);
-// //
-// // int seriesLength = v.length;
-// // for (int k = 0; k < seriesLength; k++) {
-// // series.add((v[k]));
-// // }
-// // dataset.addSeries(series.toXYSeries());
-// // }
-// // return dataset;
-// // }
-//
-// protected XYMultipleSeriesDataset buildBarDataset(String[] titles,
-// List<double[]> values) {
-// XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-// int length = titles.length;
-// for (int i = 0; i < length; i++) {
-// CategorySeries series = new CategorySeries(titles[i]);
-// double[] v = values.get(i);
-// int seriesLength = v.length;
-// for (int k = 0; k < seriesLength; k++) {
-// series.add(v[k]);
-// }
-// dataset.addSeries(series.toXYSeries());
-// }
-// return dataset;
-// }
-//
-// private void setChartSettings(XYMultipleSeriesRenderer renderer, Data data) {
-// renderer.setChartTitle(data.getChartTitle());
-// renderer.setXTitle(data.getxTitle());
-// renderer.setYTitle(data.getYTitle());
-// renderer.setXAxisMin(Double.parseDouble(data.getXAxisMin()));
-// renderer.setXAxisMax(Double.parseDouble(data.getXAxisMax()));
-// renderer.setYAxisMin(Double.parseDouble(data.getYAxisMin()));
-// renderer.setYAxisMax(Double.parseDouble(data.getYAxisMax()));
-// renderer.setAxesColor(data.getAxesColor());
-// renderer.setLabelsColor(data.getLabelsColor());
-// }
-// }
-
